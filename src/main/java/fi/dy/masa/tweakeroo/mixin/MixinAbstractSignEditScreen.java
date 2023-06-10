@@ -1,5 +1,6 @@
 package fi.dy.masa.tweakeroo.mixin;
 
+import net.minecraft.block.entity.SignText;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -28,8 +29,12 @@ public abstract class MixinAbstractSignEditScreen extends Screen implements IGui
         super(textComponent);
     }
 
-    @Shadow @Final protected SignBlockEntity blockEntity;
-    @Shadow @Final protected String[] text;
+    @Shadow @Final private SignBlockEntity blockEntity;
+    @Shadow private SignText text;
+
+    @Shadow @Final private boolean front;
+
+    @Shadow @Final private String[] messages;
 
     @Override
     public SignBlockEntity getTile()
@@ -42,7 +47,7 @@ public abstract class MixinAbstractSignEditScreen extends Screen implements IGui
     {
         if (FeatureToggle.TWEAK_SIGN_COPY.getBooleanValue())
         {
-            MiscUtils.copyTextFromSign(this.blockEntity);
+            MiscUtils.copyTextFromSign(this.blockEntity, this.front);
         }
     }
 
@@ -51,7 +56,7 @@ public abstract class MixinAbstractSignEditScreen extends Screen implements IGui
     {
         if (FeatureToggle.TWEAK_SIGN_COPY.getBooleanValue())
         {
-            MiscUtils.applyPreviousTextToSign(this.blockEntity, this.text);
+            MiscUtils.applyPreviousTextToSign(this.blockEntity, ((AbstractSignEditScreen) (Object) this), this.front);
         }
 
         if (Configs.Disable.DISABLE_SIGN_GUI.getBooleanValue())
@@ -67,6 +72,17 @@ public abstract class MixinAbstractSignEditScreen extends Screen implements IGui
             }
 
             GuiBase.openGui(null);
+        }
+    }
+
+    @Override
+    public void applyText(SignText text)
+    {
+        this.text = text;
+
+        for (int i = 0; i < this.messages.length; i++)
+        {
+            this.messages[i] = text.getMessage(i, false).getString();
         }
     }
 }

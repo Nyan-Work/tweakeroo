@@ -28,7 +28,7 @@ import fi.dy.masa.tweakeroo.util.MiscUtils;
 @Mixin(value = GameRenderer.class, priority = 1001)
 public abstract class MixinGameRenderer
 {
-    @Shadow @Final private MinecraftClient client;
+    @Shadow @Final MinecraftClient client;
 
     @Shadow protected abstract void bobView(MatrixStack matrices, float tickDelta);
 

@@ -28,7 +28,7 @@ public abstract class MixinPlayerEntity extends LivingEntity
     {
         if (FeatureToggle.TWEAK_SNEAK_1_15_2.getBooleanValue())
         {
-            cir.setReturnValue(this.onGround);
+            cir.setReturnValue(this.isOnGround());
         }
     }
 

@@ -1,6 +1,7 @@
 package fi.dy.masa.tweakeroo.event;
 
 import com.mojang.blaze3d.systems.RenderSystem;
+import net.minecraft.client.gui.DrawContext;
 import org.joml.Matrix4f;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.util.math.MatrixStack;
@@ -21,37 +22,37 @@ import fi.dy.masa.tweakeroo.renderer.RenderUtils;
 public class RenderHandler implements IRenderer
 {
     @Override
-    public void onRenderGameOverlayPost(MatrixStack matrixStack)
+    public void onRenderGameOverlayPost(DrawContext drawContext)
     {
         MinecraftClient mc = MinecraftClient.getInstance();
 
         if (FeatureToggle.TWEAK_HOTBAR_SWAP.getBooleanValue() &&
             Hotkeys.HOTBAR_SWAP_BASE.getKeybind().isKeybindHeld())
         {
-            RenderUtils.renderHotbarSwapOverlay(mc, matrixStack);
+            RenderUtils.renderHotbarSwapOverlay(mc, drawContext);
         }
         else if (FeatureToggle.TWEAK_HOTBAR_SCROLL.getBooleanValue() &&
                  Hotkeys.HOTBAR_SCROLL.getKeybind().isKeybindHeld())
         {
-            RenderUtils.renderHotbarScrollOverlay(mc);
+            RenderUtils.renderHotbarScrollOverlay(mc, drawContext);
         }
 
         if (FeatureToggle.TWEAK_INVENTORY_PREVIEW.getBooleanValue() &&
             Hotkeys.INVENTORY_PREVIEW.getKeybind().isKeybindHeld())
         {
-            RenderUtils.renderInventoryOverlay(mc, matrixStack);
+            RenderUtils.renderInventoryOverlay(mc, drawContext);
         }
 
         if (FeatureToggle.TWEAK_PLAYER_INVENTORY_PEEK.getBooleanValue() &&
             Hotkeys.PLAYER_INVENTORY_PEEK.getKeybind().isKeybindHeld())
         {
-            RenderUtils.renderPlayerInventoryOverlay(mc);
+            RenderUtils.renderPlayerInventoryOverlay(mc, drawContext);
         }
 
         if (FeatureToggle.TWEAK_SNAP_AIM.getBooleanValue() &&
             Configs.Generic.SNAP_AIM_INDICATOR.getBooleanValue())
         {
-            RenderUtils.renderSnapAimAngleIndicator(matrixStack);
+            RenderUtils.renderSnapAimAngleIndicator(drawContext);
         }
 
         if (FeatureToggle.TWEAK_ELYTRA_CAMERA.getBooleanValue())
@@ -60,13 +61,13 @@ public class RenderHandler implements IRenderer
 
             if (mode == ActiveMode.ALWAYS || (mode == ActiveMode.WITH_KEY && Hotkeys.ELYTRA_CAMERA.getKeybind().isKeybindHeld()))
             {
-                RenderUtils.renderPitchLockIndicator(mc, matrixStack);
+                RenderUtils.renderPitchLockIndicator(mc, drawContext);
             }
         }
     }
 
     @Override
-    public void onRenderTooltipLast(ItemStack stack, int x, int y)
+    public void onRenderTooltipLast(DrawContext drawContext, ItemStack stack, int x, int y)
     {
         if (stack.getItem() instanceof FilledMapItem)
         {
@@ -81,7 +82,7 @@ public class RenderHandler implements IRenderer
 
             if (render)
             {
-                fi.dy.masa.malilib.render.RenderUtils.renderShulkerBoxPreview(stack, x, y, Configs.Generic.SHULKER_DISPLAY_BACKGROUND_COLOR.getBooleanValue());
+                fi.dy.masa.malilib.render.RenderUtils.renderShulkerBoxPreview(stack, x, y, Configs.Generic.SHULKER_DISPLAY_BACKGROUND_COLOR.getBooleanValue(), drawContext);
             }
         }
     }

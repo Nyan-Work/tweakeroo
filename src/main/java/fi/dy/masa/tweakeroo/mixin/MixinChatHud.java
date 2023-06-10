@@ -1,5 +1,6 @@
 package fi.dy.masa.tweakeroo.mixin;
 
+import net.minecraft.client.gui.DrawContext;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
@@ -11,7 +12,7 @@ import fi.dy.masa.tweakeroo.config.FeatureToggle;
 import fi.dy.masa.tweakeroo.util.MiscUtils;
 
 @Mixin(value = ChatHud.class, priority = 1100)
-public abstract class MixinChatHud extends net.minecraft.client.gui.DrawableHelper
+public abstract class MixinChatHud
 {
     @ModifyVariable(method = "addMessage(Lnet/minecraft/text/Text;Lnet/minecraft/network/message/MessageSignatureData;ILnet/minecraft/client/gui/hud/MessageIndicator;Z)V",
                     at = @At("HEAD"), argsOnly = true)
@@ -28,14 +29,14 @@ public abstract class MixinChatHud extends net.minecraft.client.gui.DrawableHelp
     }
 
     @Redirect(method = "render", at = @At(value = "INVOKE",
-                target = "Lnet/minecraft/client/gui/hud/ChatHud;fill(Lnet/minecraft/client/util/math/MatrixStack;IIIII)V", ordinal = 0))
-    private void overrideChatBackgroundColor(net.minecraft.client.util.math.MatrixStack matrixStack, int left, int top, int right, int bottom, int color)
+                target = "Lnet/minecraft/client/gui/DrawContext;fill(IIIII)V", ordinal = 0))
+    private void overrideChatBackgroundColor(DrawContext drawableHelper, int left, int top, int right, int bottom, int color)
     {
         if (FeatureToggle.TWEAK_CHAT_BACKGROUND_COLOR.getBooleanValue())
         {
             color = MiscUtils.getChatBackgroundColor(color);
         }
 
-        fill(matrixStack, left, top, right, bottom, color);
+        drawableHelper.fill(left, top, right, bottom, color);
     }
 }

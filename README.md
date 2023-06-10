@@ -1,3 +1,6 @@
+# ⚠️This is a third-party port, currently based on old code, so if you find any bugs, please do not report them to Masa.⚠️
+Get Malilib from [here](https://github.com/Nyan-Work/malilib/releases/tag/1.20).
+
 Tweakeroo
 ==============
 Tweakeroo is a client-side-only Minecraft mod using LiteLoader.

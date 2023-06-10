@@ -916,7 +916,7 @@ public class InventoryUtils
 
             // Only accept regular inventory slots (no crafting, armor slots, or offhand)
             if (fi.dy.masa.malilib.util.InventoryUtils.isRegularInventorySlot(slot.id, false) &&
-                stackSlot.isItemEqual(stackReference) &&
+                ItemStack.areItemsEqual(stackSlot, stackReference) &&
                 stackSlot.getMaxDamage() - stackSlot.getDamage() >= minDurabilityLeft &&
                 hasSameIshEnchantments(stackReference, stackSlot))
             {
