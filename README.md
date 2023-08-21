@@ -4,6 +4,10 @@ Jitpack support
 ===================
 The branch artifacts support fetching from jitpack: https://jitpack.io/#Nyan-Work/tweakeroo
 
+Malilib
+===================
+Get Malilib from Nyan-Work: https://github.com/Nyan-Work/malilib/releases/tag/snapshot-1.20.2
+
 Tweakeroo
 ==============
 Tweakeroo is a client-side-only Minecraft mod using LiteLoader.
