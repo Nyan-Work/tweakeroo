@@ -9,3 +9,6 @@ logs/
 build.number
 run
 .vscode
+.idea/
+run/
+publish/
